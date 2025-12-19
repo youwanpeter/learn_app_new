@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     const String baseUrl = "http://10.0.2.2:5000";
 
     const String token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImxlY3QxIiwicm9sZSI6ImxlY3R1cmVyIiwiaWF0IjoxNzY2MTE4NzI2LCJleHAiOjE3NjY3MjM1MjZ9.u3_kDQ1wgI7iBRO-k38-drZXDeK8-EObeOdKqsadgZI"; // student token
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImxlY3QxIiwicm9sZSI6ImxlY3R1cmVyIiwiaWF0IjoxNzY2MTIwMjAxLCJleHAiOjE3NjY3MjUwMDF9.LFAW1G61bG-TB9ImU4SdGRS4Sti8oN0ILscNUVhIs_s"; // student token
 
     final String userRole = getRoleFromJwt(token); // 👈 KEY LINE
 
