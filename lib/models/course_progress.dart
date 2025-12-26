@@ -9,5 +9,7 @@ class CourseProgress {
     required this.totalLessons,
   });
 
-  double get progress => completedLessons / totalLessons;
+  double get progress {
+    return completedLessons / totalLessons;
+  }
 }

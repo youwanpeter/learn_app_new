@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../viewmodels/dashboard_viewmodel.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/dashboard_footer.dart';
@@ -13,31 +12,30 @@ class DashboardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vm = Provider.of<DashboardViewModel>(context);
+    final w = MediaQuery.of(context).size.width;
+    final h = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Column(
         children: [
-          /// ===== HEADER =====
           const DashboardHeader(),
-
-          /// ===== BODY =====
           Expanded(
             child: vm.isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : SingleChildScrollView(
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.all(w * 0.03),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        /// ---- Courses Section ----
-                        const Text(
+                        ///Courses section
+                        Text(
                           "Your Courses",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: w * 0.027,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        SizedBox(height: h * 0.015),
 
                         if (vm.progressList.isEmpty)
                           const Text(
@@ -45,31 +43,30 @@ class DashboardView extends StatelessWidget {
                             style: TextStyle(color: Colors.grey),
                           )
                         else
-                          ...vm.progressList.map(
-                            (course) => Padding(
-                              padding: const EdgeInsets.only(bottom: 14),
+                          ...vm.progressList.map((course) {
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: h * 0.018),
                               child: ProgressCard(course: course),
-                            ),
-                          ),
+                            );
+                          }),
 
-                        const SizedBox(height: 28),
+                        SizedBox(height: h * 0.025),
 
-                        /// ---- Analytics Section ----
-                        const Text(
+                        ///Analytics section
+                        Text(
                           "Weekly Analytics",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: w * 0.027,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        const SizedBox(height: 16),
-
-                        /// Chart
+                        SizedBox(height: h * 0.03),
+                        ///Chart
                         Container(
-                          height: 220,
-                          padding: const EdgeInsets.all(16),
+                          height: h * 0.3,
+                          padding: EdgeInsets.all(w * 0.04),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(w * 0.02),
                             gradient: const LinearGradient(
                               colors: [
                                 Color.fromARGB(255, 255, 0, 0),
@@ -77,12 +74,23 @@ class DashboardView extends StatelessWidget {
                               ],
                             ),
                           ),
-                          child: const AnalyticsChart(),
+                          child: vm.analyticsAvailable
+                              ? const AnalyticsChart()
+                              : const Center(
+                                  child: Text(
+                                    "Please connect to the internet to view analytics",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
                         ),
 
-                        const SizedBox(height: 20),
+                        SizedBox(height: h * 0.03),
 
-                        /// ---- Stats ----
+                        ///Stats 
                         if (vm.analytics != null)
                           Row(
                             children: [
@@ -91,12 +99,15 @@ class DashboardView extends StatelessWidget {
                                 label: "Lessons",
                                 value: vm.analytics!.lessonsCompleted
                                     .toString(),
+                                w: w,   
                               ),
-                              const SizedBox(width: 12),
+                              SizedBox(width: w * 0.02),
                               _StatTile(
                                 icon: Icons.star_rounded,
                                 label: "Quiz Avg",
-                                value: "${vm.analytics!.averageQuizScore}%",
+                                value:
+                                    "${vm.analytics!.averageQuizScore}%",
+                                w: w,    
                               ),
                             ],
                           ),
@@ -105,7 +116,6 @@ class DashboardView extends StatelessWidget {
                   ),
           ),
 
-          /// ===== FOOTER =====
           const DashboardFooter(currentIndex: 0),
         ],
       ),
@@ -113,40 +123,51 @@ class DashboardView extends StatelessWidget {
   }
 }
 
-/// ================= STAT TILE =================
+///Stat tile
 class _StatTile extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
+  final double w;
 
   const _StatTile({
     required this.icon,
     required this.label,
     required this.value,
+    required this.w,
   });
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(w * 0.015),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(w * 0.02),
           color: Colors.white,
           boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10),
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+            ),
           ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(icon, color: Colors.blueAccent),
-            const SizedBox(height: 8),
+            SizedBox(height: w * 0.02),
             Text(
               value,
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: w * 0.03,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            Text(label, style: const TextStyle(color: Colors.grey)),
+            Text(
+              label,
+              style: TextStyle(color: Colors.grey),
+            ),
           ],
         ),
       ),

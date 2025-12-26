@@ -22,12 +22,11 @@ class DashboardHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          /// Greeting
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
               Text(
-                "Welcome back 👋",
+                "Welcome Back!",
                 style: TextStyle(color: Colors.white70, fontSize: 14),
               ),
               SizedBox(height: 4),
@@ -42,7 +41,6 @@ class DashboardHeader extends StatelessWidget {
             ],
           ),
 
-          /// Right Icons
           Row(
             children: [
               IconButton(

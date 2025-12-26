@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../models/user.dart';
-import '../../views/course/course_list_view.dart';
 
-// ✅ Correct import
-import '../../views/feature2/study_materials_assignments_screen.dart';
+// ✅ CORRECT imports (match real structure)
+import '../views/course/course_list_screen.dart';
+import '../views/feature2/study_materials_assignments_screen.dart';
 
 class DashboardFooter extends StatelessWidget {
   final int currentIndex;
@@ -42,57 +41,51 @@ class DashboardFooter extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          /// 1. Dashboard
           _NavItem(
             icon: Icons.dashboard_rounded,
             label: "Dashboard",
             active: currentIndex == 0,
-            onTap: onDashboardTap ?? () {},
+            onTap: onDashboardTap ??
+                    () => Navigator.popUntil(
+                  context,
+                      (route) => route.isFirst,
+                ),
           ),
 
-          /// 2. Courses
           _NavItem(
             icon: Icons.book_rounded,
             label: "Courses",
             active: currentIndex == 1,
-            onTap:
-                onCoursesTap ??
-                () {
-                  final user = User(
-                    id: 'lecturer1',
-                    name: 'Youwan',
-                    email: 'lecturer@example.com',
-                    role: 'lecturer',
-                  );
+            onTap: onCoursesTap ??
+                    () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => CourseListView(user: user),
-                    ),
-                  );
-                },
-          ),
-
-          /// 3. Study Materials & Assignments (FIXED)
-          _NavItem(
-            icon: Icons.play_circle_fill_rounded,
-            label: "Lessons",
-            active: currentIndex == 2,
-            onTap:
-                onLessonsTap ??
-                () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const StudyMaterialsAssignmentsScreen(
-                        courseId: 'course_default', // replace later
+                      builder: (_) => const CourseListScreen(
+                        role: "lecturer", // 🔐 from JWT later
                       ),
                     ),
                   );
                 },
           ),
 
-          /// 4. Analytics
+          _NavItem(
+            icon: Icons.play_circle_fill_rounded,
+            label: "Lessons",
+            active: currentIndex == 2,
+            onTap: onLessonsTap ??
+                    () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const StudyMaterialsAssignmentsScreen(
+                        courseId: 'course_default', // replace dynamically later
+                      ),
+                    ),
+                  );
+                },
+          ),
+
           _NavItem(
             icon: Icons.bar_chart_rounded,
             label: "Analytics",
@@ -100,7 +93,6 @@ class DashboardFooter extends StatelessWidget {
             onTap: onAnalyticsTap ?? () {},
           ),
 
-          /// 5. Profile
           _NavItem(
             icon: Icons.person_rounded,
             label: "Profile",
@@ -128,19 +120,22 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color =
+    active ? Theme.of(context).colorScheme.primary : Colors.grey;
+
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: active ? Colors.blueAccent : Colors.grey, size: 26),
+          Icon(icon, color: color, size: 26),
           const SizedBox(height: 4),
           Text(
             label,
             style: TextStyle(
               fontSize: 11,
-              color: active ? Colors.blueAccent : Colors.grey,
+              color: color,
               fontWeight: active ? FontWeight.w600 : FontWeight.normal,
             ),
           ),

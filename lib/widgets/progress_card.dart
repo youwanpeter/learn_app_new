@@ -7,7 +7,9 @@ class ProgressCard extends StatefulWidget {
   const ProgressCard({super.key, required this.course});
 
   @override
-  State<ProgressCard> createState() => _ProgressCardState();
+  State<ProgressCard> createState() {
+    return _ProgressCardState();
+  }
 }
 
 class _ProgressCardState extends State<ProgressCard>
@@ -60,7 +62,6 @@ class _ProgressCardState extends State<ProgressCard>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// ─── HEADER ROW ───
           Row(
             children: [
               Container(
@@ -88,20 +89,21 @@ class _ProgressCardState extends State<ProgressCard>
               ),
               AnimatedBuilder(
                 animation: _progressAnim,
-                builder: (_, __) => Text(
-                  "${(_progressAnim.value * 100).toInt()}%",
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueAccent,
-                  ),
-                ),
+                builder: (_, __) {
+                  return Text(
+                    "${(_progressAnim.value * 100).toInt()}%",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueAccent,
+                    ),
+                  );
+                },
               ),
             ],
           ),
 
           const SizedBox(height: 16),
 
-          /// ─── PROGRESS BAR ───
           AnimatedBuilder(
             animation: _progressAnim,
             builder: (_, __) {
@@ -119,7 +121,6 @@ class _ProgressCardState extends State<ProgressCard>
 
           const SizedBox(height: 10),
 
-          /// ─── FOOTER TEXT ───
           Text(
             "${widget.course.completedLessons} of ${widget.course.totalLessons} lessons completed",
             style: const TextStyle(color: Colors.grey, fontSize: 13),

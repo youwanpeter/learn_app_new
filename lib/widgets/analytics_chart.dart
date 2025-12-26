@@ -5,7 +5,9 @@ class AnalyticsChart extends StatefulWidget {
   const AnalyticsChart({super.key});
 
   @override
-  State<AnalyticsChart> createState() => _AnalyticsChartState();
+  State<AnalyticsChart> createState() {
+    return _AnalyticsChartState();
+  }
 }
 
 class _AnalyticsChartState extends State<AnalyticsChart>
@@ -51,7 +53,7 @@ class _AnalyticsChartState extends State<AnalyticsChart>
           minY: 0,
           maxY: 80,
 
-          /// ─── GRID ───
+          ///Grid
           gridData: FlGridData(
             show: true,
             drawVerticalLine: false,
@@ -64,7 +66,7 @@ class _AnalyticsChartState extends State<AnalyticsChart>
             },
           ),
 
-          /// ─── AXIS TITLES ───
+          ///Axis tiles
           titlesData: FlTitlesData(
             leftTitles: AxisTitles(
               sideTitles: SideTitles(
@@ -97,7 +99,7 @@ class _AnalyticsChartState extends State<AnalyticsChart>
 
           borderData: FlBorderData(show: false),
 
-          /// ─── TOUCH INTERACTION ───
+          ///Touch interaction
           lineTouchData: LineTouchData(
             handleBuiltInTouches: true,
             touchTooltipData: LineTouchTooltipData(
@@ -117,7 +119,7 @@ class _AnalyticsChartState extends State<AnalyticsChart>
             ),
           ),
 
-          /// ─── LINE DATA ───
+          ///Line data
           lineBarsData: [
             LineChartBarData(
               spots: _dataPoints,

@@ -10,13 +10,21 @@ class DashboardViewModel extends ChangeNotifier {
   AnalyticsData? analytics;
 
   bool isLoading = false;
+  bool analyticsAvailable = true;
 
   Future<void> loadDashboard() async {
     isLoading = true;
     notifyListeners();
 
     progressList = await _service.fetchProgress();
-    analytics = await _service.fetchAnalytics();
+
+    AnalyticsData? onlineAnalytics = await _service.fetchAnalytics();
+
+    if (onlineAnalytics != null) {
+      analytics = onlineAnalytics;
+    } else {
+      analytics = await _service.loadCachedStats();
+    }
 
     isLoading = false;
     notifyListeners();
